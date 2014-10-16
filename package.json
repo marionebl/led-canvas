@@ -1,0 +1,33 @@
+{
+  "name": "led-canvas",
+  "version": "0.0.1",
+  "description": "Lightweight led board implemented with canvas",
+  "main": "lib/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/npm run server",
+    "test": "./node_modules/.bin/npm run test-spec && ./node_modules/.bin/npm run test-coverage",
+    "test-spec": "./node_modules/.bin/mocha test/test-*.js",
+    "test-optimized": "node --trace_opt --trace_deopt --allow-natives-syntax test/optimized.js",
+    "test-coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly test/test-*.js",
+    "travis-coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "server": "./bin/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marionebl/led-canvas.git"
+  },
+  "keywords": [
+    "led",
+    "canvas",
+    "led-board"
+  ],
+  "author": "Mario Nebl <hello@mario-nebl.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marionebl/led-canvas/issues"
+  },
+  "homepage": "https://github.com/marionebl/led-canvas"
+}
