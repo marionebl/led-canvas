@@ -39,7 +39,6 @@
     "6to5-browserify": "0.0.11",
     "browserify": "^6.1.0",
     "nodemon": "^1.2.1",
-    "symbol": "^0.2.1",
     "uglify-js": "^2.4.15"
   }
 }
