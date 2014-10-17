@@ -9,6 +9,7 @@
   "scripts": {
     "build": "npm run browserify && npm run uglify",
     "watch": "./node_modules/.bin/nodemon --exec \"npm run build\"",
+    "serve": "./node_modules/.bin/static .",
     "browserify": "./node_modules/.bin/browserify ./lib/index.js -t 6to5-browserify -o ./dist/led-canvas.js",
     "uglify": "./node_modules/.bin/uglifyjs dist/led-canvas.js -o ./dist/led-canvas.min.js",
     "test": "./node_modules/.bin/npm run test-spec && ./node_modules/.bin/npm run test-coverage",
@@ -38,6 +39,7 @@
   "devDependencies": {
     "6to5-browserify": "0.0.11",
     "browserify": "^6.1.0",
+    "node-static": "^0.7.6",
     "nodemon": "^1.2.1",
     "uglify-js": "^2.4.15"
   }
