@@ -2,18 +2,20 @@
   "name": "led-canvas",
   "version": "0.0.1",
   "description": "Lightweight led board implemented with canvas",
-  "main": "lib/index.js",
+  "main": "dist/led-canvas.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "start": "./node_modules/.bin/npm run server",
+    "build": "npm run browserify && npm run uglify",
+    "watch": "./node_modules/.bin/nodemon --exec \"npm run build\"",
+    "browserify": "./node_modules/.bin/browserify ./lib/index.js -t 6to5-browserify -o ./dist/led-canvas.js",
+    "uglify": "./node_modules/.bin/uglifyjs dist/led-canvas.js -o ./dist/led-canvas.min.js",
     "test": "./node_modules/.bin/npm run test-spec && ./node_modules/.bin/npm run test-coverage",
     "test-spec": "./node_modules/.bin/mocha test/test-*.js",
     "test-optimized": "node --trace_opt --trace_deopt --allow-natives-syntax test/optimized.js",
     "test-coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly test/test-*.js",
-    "travis-coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "server": "./bin/server"
+    "travis-coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
     "type": "git",
@@ -29,5 +31,12 @@
   "bugs": {
     "url": "https://github.com/marionebl/led-canvas/issues"
   },
-  "homepage": "https://github.com/marionebl/led-canvas"
+  "homepage": "https://github.com/marionebl/led-canvas",
+  "dependencies": {},
+  "devDependencies": {
+    "6to5-browserify": "0.0.11",
+    "browserify": "^6.1.0",
+    "nodemon": "^1.2.1",
+    "uglify-js": "^2.4.15"
+  }
 }

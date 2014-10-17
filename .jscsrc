@@ -31,7 +31,7 @@
   "disallowSpacesInFunctionDeclaration": {
     "beforeOpeningRoundBrace": true
   },
-  "requireMultipleVarDecl": "onevar",
+  "requireMultipleVarDecl": false,
   "requireBlocksOnNewline": 1,
   "disallowEmptyBlocks": true,
   "disallowSpacesInsideArrayBrackets": true,
@@ -51,7 +51,6 @@
   "disallowKeywords": [ "with" ],
   "disallowMultipleLineBreaks": true,
   "validateQuoteMarks": "'",
-  "validateIndentation": 4,
   "disallowMixedSpacesAndTabs": true,
   "disallowTrailingWhitespace": true,
   "disallowTrailingComma": true,

@@ -24,5 +24,6 @@
   "loopfunc": true,
   "expr": true,
   "devel": true,
-  "white": true
+  "white": true,
+  "esnext": true
 }
