@@ -298,6 +298,8 @@ var LedCanvas = function() {
             writable: true,
 
             value: function() {
+                this.cursor = { x : 0, y : 0 };
+
                 this.matrix.all().forEach(function(led){
                     led.enabled = false;
                 });
