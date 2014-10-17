@@ -1,11 +1,10 @@
 var fs = require('fs');
 var path = require('path');
 
-
 var inFile = process.argv[2];
 var outFile = process.argv[3];
-var fullInFile = path.join(__dirname, inFile || '');
-var fullOutFile = path.join(__dirname, outFile || '');
+var fullInFile = path.resolve(process.cwd(), inFile || '');
+var fullOutFile = path.resolve(process.cwd(), outFile || '');
 var fileContent = null;
 var characters = [];
 var output = null;
