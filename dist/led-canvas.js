@@ -41,7 +41,7 @@ module.exports = defaults;
 var ledCanvas = {
 	meta: {
 		monospaced: false,
-		charwidth: 8,
+		charWidth: 8,
 		lineHeight: 12
 	},
 	chars: {
@@ -228,7 +228,7 @@ var objectAssign = require('object-assign');
 
 var Matrix = require('./matrix');
 var Led = require('./led');
-var LedCanvasFont = require('./font/led-canvas');
+var LedCanvasFont = require('./font/default');
 
 var loop = require('./animation/loop');
 var defaults = require('./defaults');
@@ -338,7 +338,7 @@ var LedCanvas = function() {
                     _sign.data.forEach(function(blob) {
                         _this.set(blob[0] + _this.cursor.x, blob[1] + _this.cursor.y);
                     });
-                    _this.cursor.x += _sign.width;
+                    _this.cursor.x += _this.font.meta.monospaced ? _this.font.meta.charWidth : _sign.width;
                 });
             }
         }
@@ -351,7 +351,7 @@ window.LedCanvas = LedCanvas;
 module.exports = LedCanvas;
 
 
-},{"./animation/loop":2,"./defaults":3,"./font/led-canvas":4,"./led":6,"./matrix":8,"object-assign":10}],6:[function(require,module,exports){
+},{"./animation/loop":2,"./defaults":3,"./font/default":4,"./led":6,"./matrix":8,"object-assign":10}],6:[function(require,module,exports){
 var arc = Math.PI * 2;
 
 var Led = function() {
