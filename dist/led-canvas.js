@@ -314,10 +314,10 @@ var LedCanvas = function() {
                 var _this = this;
 
                 if (y === undefined)
-                    y = 0;
+                    y = this.cursor.y;
 
                 if (x === undefined)
-                    x = 0;
+                    x = this.cursor.x;
 
                 if (size === undefined)
                     size = 1;
@@ -328,6 +328,7 @@ var LedCanvas = function() {
                     str = str.toString();
                 }
 
+                this.cursor = { x: x, y: y };
                 var charSpacing = this.font.meta.charSpacing || 1;
 
                 str.split('').forEach(function(char) {
