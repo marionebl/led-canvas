@@ -9,12 +9,12 @@ var fileContent = null;
 var characters = [];
 var output = null;
 var font = {
-    meta: {
-        monospaced: true,
-        charWidth: -1,
-        lineHeight: -1
-    },
-    chars: {}
+	meta: {
+		monospaced: true,
+		charWidth: -1,
+		lineHeight: -1
+	},
+	chars: {}
 };
 
 
@@ -48,33 +48,33 @@ for (var i = 0; i < characters.length; i += 1) {
 
 output = JSON.stringify(font);
 if (!outFile) {
-    console.log(output);
+	console.log(output);
 } else {
-    fs.writeFileSync(fullOutFile, output);
+	fs.writeFileSync(fullOutFile, output);
 }
 
 
 function charWidth(initial, character) {
-    var lineLengths = character.map(function (line) { return line.length; });
-    var maxLength = Math.max.apply(Math, lineLengths);
-    return maxLength > initial ? maxLength : initial;
+	var lineLengths = character.map(function (line) { return line.length; });
+	var maxLength = Math.max.apply(Math, lineLengths);
+	return maxLength > initial ? maxLength : initial;
 }
 
 function charHeight(initial, character) {
-    var len = character.length - 2;
-    return len > initial ? len : initial;
+	var len = character.length - 2;
+	return len > initial ? len : initial;
 }
 
 function generateCharData(character) {
-    var coords = [];
-    for (var x = 0; x < character.length; x += 1) {
-        var line = character[x];
+	var coords = [];
+	for (var y = 0; y < character.length; y += 1) {
+		var line = character[y];
 
-        for (var y = 0; y < line.length; y += 1) {
-            if (line.charAt(y) !== ' ') {
-                coords.push([x, y]);
-            }
-        }
-    }
-    return coords;
+		for (var x = 0; x < line.length; x += 1) {
+			if (line.charAt(x) !== ' ') {
+				coords.push([x, y]);
+			}
+		}
+	}
+	return coords;
 }
