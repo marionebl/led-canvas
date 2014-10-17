@@ -14,7 +14,7 @@ var animationFrame = require('./frame');
 
 function loop (board) {
 	animationFrame(function(){
-		board.context.clearRect(0, 0, board.context.canvas.width, board.context.canvas.height);
+		//board.context.clearRect(0, 0, board.context.canvas.width, board.context.canvas.height);
 
 		board.matrix.leds.forEach(function(led){
 			led.render(board.context);
@@ -380,6 +380,7 @@ var Led = function() {
 
         enabled: {
             set: function(state) {
+                this.prev = this.enabled;
                 this.on = state;
                 return this;
             },
@@ -393,15 +394,27 @@ var Led = function() {
             writable: true,
 
             value: function(context) {
+                if (this.enabled === this.prev) return;
+                this.prev = this.enabled;
+
                 context.save();
 
+                var _x = this.x*this.size;
+                var _y = this.y*this.size;
+                var _radius = this.size/2;
+                var _inner = _radius - this.size/7.5;
+
+                if (typeof this.prev !== 'undefined') {
+                    context.clearRect(_x, _y, this.size, this.size);
+                }
+
                 context.beginPath();
-                context.arc(this.x*this.size + this.size/2, this.y*this.size + this.size/2, this.size/2 - this.size/7.5, 0, arc);
+                context.arc(_x + _radius, _y + _radius, _inner, 0, arc);
                 context.fillStyle = this.enabled ? 'rgba(255,255,255,1)':'rgba(255,255,255,.1)';
 
                 if (this.enabled) {
                     context.shadowColor = 'rgba(255,255,255,1)';
-                    context.shadowBlur = this.size;
+                    context.shadowBlur = _radius - _inner;
                 }
 
                 context.fill();
