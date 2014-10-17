@@ -395,10 +395,19 @@ var Led = function() {
             writable: true,
 
             value: function(context) {
+                context.save();
+
                 context.beginPath();
                 context.arc(this.x*this.size + this.size/2, this.y*this.size + this.size/2, this.size/2 - this.size/7.5, 0, arc);
                 context.fillStyle = this.enabled ? 'rgba(255,255,255,1)':'rgba(255,255,255,.1)';
+
+                if (this.enabled) {
+                    context.shadowColor = 'rgba(255,255,255,1)';
+                    context.shadowBlur = this.size;
+                }
+
                 context.fill();
+                context.restore();
             }
         }
     });
