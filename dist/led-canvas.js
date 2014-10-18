@@ -5804,6 +5804,9 @@ var Matrix = function() {
             writable: true,
 
             value: function(key, value) {
+                return this.leds.filter(function(led){
+                    return led[key] == value;
+                });
             }
         }
     });
