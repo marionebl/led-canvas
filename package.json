@@ -2,7 +2,7 @@
   "name": "led-canvas",
   "version": "0.0.1",
   "description": "Lightweight led board implemented with canvas",
-  "main": "dist/led-canvas.js",
+  "main": "lib/index.js",
   "directories": {
     "test": "test"
   },
