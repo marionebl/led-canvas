@@ -5749,11 +5749,61 @@ var Matrix = function() {
             }
         },
 
+        row: {
+            writable: true,
+
+            value: function(y) {
+                return this.leds.filter(function(led){
+                    return led.y == y;
+                });
+            }
+        },
+
+        column: {
+            writable: true,
+
+            value: function(x) {
+                return this.leds.filter(function(led){
+                    return led.x == x;
+                });
+            }
+        },
+
+        rect: {
+            writable: true,
+
+            value: function(x, y, xc, yc) {
+                if (yc === undefined)
+                    yc = 1;
+
+                if (xc === undefined)
+                    xc = 1;
+
+                var _xmax = x + xc;
+                var _ymax = y + yc;
+
+                return this.leds.filter(function(_ymax) {
+                    return function(_xmax) {
+                        return function(led){
+                            return led.x >= x && led.x <= _xmax && led.y >= y && led.y <= _ymax;
+                        };
+                    };
+                }(_ymax)(_xmax));
+            }
+        },
+
         all: {
             writable: true,
 
             value: function() {
                 return this.leds;
+            }
+        },
+
+        prop: {
+            writable: true,
+
+            value: function(key, value) {
             }
         }
     });
