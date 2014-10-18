@@ -5609,7 +5609,6 @@ var LedCanvas = function() {
     return LedCanvas;
 }();
 
-window.LedCanvas = LedCanvas;
 module.exports = LedCanvas;
 
 
