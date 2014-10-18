@@ -7,7 +7,9 @@ var fullInFile = path.resolve(process.cwd(), inFile || '');
 var fullOutFile = path.resolve(process.cwd(), outFile || '');
 var fileContent = null;
 var characters = [];
+var charWidths = [];
 var output = null;
+
 var font = {
 	meta: {
 		monospaced: true,
@@ -40,13 +42,26 @@ font.meta.lineHeight = characters.reduce(charHeight, 0);
 for (var i = 0; i < characters.length; i += 1) {
 	var charData = characters[i];
 	var identifier = charData.shift().replace('# ', '');
+	var charBuffer = generateCharData(charData);
+
+	var xBuffer = charBuffer.map(function (blob) {
+		return blob[0];
+	});
+
+	var width = Math.max.apply(Math, xBuffer) + 1;
+	charWidths.push(width);
+
 	font.chars[identifier] = {
-		data: generateCharData(charData)
+		data: charBuffer,
+		width: width
 	};
 }
 
+if (Math.max.apply(Math, charWidths) !== Math.min.apply(Math, charWidths)) {
+	font.meta.monospaced = false;
+}
 
-output = JSON.stringify(font);
+output = JSON.stringify(font, null, 2);
 if (!outFile) {
 	console.log(output);
 } else {
@@ -71,7 +86,7 @@ function generateCharData(character) {
 		var line = character[y];
 
 		for (var x = 0; x < line.length; x += 1) {
-			if (line.charAt(x) !== ' ') {
+			if ([' ', '#', '.'].indexOf(line.charAt(x)) === -1) {
 				coords.push([x, y]);
 			}
 		}

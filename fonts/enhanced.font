@@ -1,4 +1,588 @@
+# A
+.
+.
+ xxx
+x   x
+x   x
+xxxxx
+x   x
+x   x
+x   x
+
+# B
+.
+.
+xxxx
+x   x
+x   x
+xxxx
+x   x
+x   x
+xxxx
+
+# C
+.
+.
+ xxx
+x   x
+x
+x
+x
+x   x
+ xxx
+
+# D
+.
+.
+xxxx
+x   x
+x   x
+x   x
+x   x
+x   x
+xxxx
+
+# E
+.
+.
+xxxxx
+x
+x
+xxxxx
+x
+x
+xxxxx
+
+# F
+.
+.
+xxxxx
+x
+x
+xxxx
+x
+x
+x
+
+# G
+.
+.
+ xxx
+x   x
+x
+x
+x xxx
+x   x
+ xxx
+
+# H
+.
+.
+x   x
+x   x
+x   x
+xxxxx
+x   x
+x   x
+x   x
+
+# I
+.
+.
+xxxxx
+  x
+  x
+  x
+  x
+  x
+xxxxx
+
+# J
+.
+.
+xxxxx
+    x
+    x
+    x
+x   x
+x   x
+ xxx
+
+# K
+.
+.
+x   x
+x  x
+x x
+xx
+x x
+x  x
+x   x
+
+# L
+.
+.
+x
+x
+x
+x
+x
+x
+xxxxx
+
+# M
+.
+.
+x   x
+x   x
+xx xx
+x x x
+x   x
+x   x
+x   x
+
+# N
+.
+.
+x   x
+x   x
+xx  x
+x x x
+x  xx
+x   x
+x   x
+
+# O
+.
+.
+ xxx
+x   x
+x   x
+x   x
+x   x
+x   x
+ xxx
+
+# P
+.
+.
+xxxx
+x   x
+x   x
+xxxx
+x
+x
+x
+
+# Q
+.
+.
+ xxx
+x   x
+x   x
+x   x
+x   x
+x  xx
+ xxxx
+
+# R
+.
+.
+xxxx
+x   x
+x   x
+xxxx
+x x
+x  x
+x   x
+
+# S
+.
+.
+ xxx
+x   x
+x
+ xxx
+    x
+x   x
+ xxx
+
+# T
+.
+.
+xxxxx
+  x
+  x
+  x
+  x
+  x
+  x
+
+# U
+.
+.
+x   x
+x   x
+x   x
+x   x
+x   x
+x   x
+ xxx
+
+# V
+.
+.
+x   x
+x   x
+x   x
+x   x
+x   x
+ x x
+  x
+
+# W
+.
+.
+x     x
+x     x
+x  x  x
+x  x  x
+x  x  x
+x  x  x
+ xx xx
+
+# X
+.
+.
+x   x
+x   x
+ x x
+  x
+ x x
+x   x
+x   x
+
+# Y
+.
+.
+x   x
+ x x
+  x
+  x
+  x
+  x
+  x
+
+# Z
+.
+.
+xxxxx
+    x
+   x
+  x
+ x
+x
+xxxxx
+
+# a
+.
+.
+.
+.
+ xxx
+x  x
+x  x
+x  x
+ xxx
+
+# b
+.
+.
+x
+x
+xxx
+x  x
+x  x
+x  x
+xxx
+
+# c
+.
+.
+.
+.
+ xxx
+x
+x
+x
+ xxx
+
+# d
+.
+.
+   x
+   x
+ xxx
+x  x
+x  x
+x  x
+ xxx
+
+# e
+.
+.
+.
+.
+ xx
+x  x
+xxxx
+x
+ xxx
+
+# f
+.
+.
+  xx
+ x
+xxx
+ x
+ x
+ x
+ x
+
+# g
+.
+.
+.
+.
+ xxx
+x  x
+x  x
+x  x
+ xxx
+   x
+ xx
+
+# h
+.
+.
+x
+x
+xxx
+x  x
+x  x
+x  x
+x  x
+
+# i
+.
+.
+ x
+.
+xx
+ x
+ x
+ x
+xxx
+
+# j
+.
+.
+ x
+.
+xxx
+  x
+  x
+  x
+  x
+  x
+xx
+
+# k
+.
+.
+x
+x
+x  x
+x x
+xx
+x x
+x  x
+
+# l
+.
+.
+xx
+ x
+ x
+ x
+ x
+ x
+xxx
+
+# m
+.
+.
+.
+.
+xxxx
+x x x
+x x x
+x x x
+x x x
+
+# n
+.
+.
+.
+.
+xxxx
+x   x
+x   x
+x   x
+x   x
+
+# o
+.
+.
+.
+.
+ xx
+x  x
+x  x
+x  x
+ xx
+
+# p
+.
+.
+.
+.
+xxx
+x  x
+x  x
+x  x
+xxx
+x
+x
+
+# q
+.
+.
+.
+.
+ xxx
+x  x
+x  x
+x  x
+ xxx
+   x
+   x
+
+# r
+.
+.
+.
+.
+xxx
+x  x
+x
+x
+x
+
+# s
+.
+.
+.
+.
+ xxx
+x
+ xx
+   x
+xxx
+
+# t
+.
+.
+ x
+ x
+xxx
+ x
+ x
+ x
+  xx
+
+# u
+.
+.
+.
+.
+x  x
+x  x
+x  x
+x  x
+ xx
+
+# v
+.
+.
+.
+.
+x  x
+x  x
+x  x
+ xx
+ xx
+
+# w
+.
+.
+.
+.
+x   x
+x x x
+x x x
+x x x
+ x x
+
+# x
+.
+.
+.
+.
+x  x
+x  x
+ xx
+x  x
+x  x
+
+# y
+.
+.
+.
+.
+x  x
+x  x
+x  x
+x  x
+ xxx
+   x
+ xx
+
+# z
+.
+.
+.
+.
+xxxx
+   x
+ xx
+x
+xxxx
+
 # 0
+.
+.
  xxx
 x   x
 x  xx
@@ -8,6 +592,8 @@ x   x
  xxx
 
 # 1
+.
+.
   x
  xx
 x x
@@ -17,6 +603,8 @@ x x
 xxxxx
 
 # 2
+.
+.
  xxx
 x   x
     x
@@ -26,6 +614,8 @@ x
 xxxxx
 
 # 3
+.
+.
  xxx
 x   x
     x
@@ -35,6 +625,8 @@ x   x
  xxx
 
 # 4
+.
+.
    xx
   x x
  x  x
@@ -44,6 +636,8 @@ xxxxx
     x
 
 # 5
+.
+.
 xxxxx
 x
 x
@@ -53,6 +647,8 @@ xxxx
 xxxx
 
 # 6
+.
+.
  xxx
 x
 x
@@ -62,6 +658,8 @@ x   x
  xxx
 
 # 7
+.
+.
 xxxxx
 x   x
     x
@@ -71,6 +669,8 @@ x   x
   x
 
 # 8
+.
+.
  xxx
 x   x
 x   x
@@ -80,6 +680,8 @@ x   x
  xxx
 
 # 9
+.
+.
  xxx
 x   x
 x   x
@@ -87,3 +689,396 @@ x   x
     x
     x
  xxx
+
+# +
+.
+.
+.
+  x
+  x
+xxxxx
+  x
+  x
+
+# -
+.
+.
+.
+.
+.
+xxxxx
+
+# *
+.
+.
+ x x
+  x
+xxxxx
+  x
+ x x
+
+# /
+.
+.
+.
+     x
+    x
+   x
+  x
+ x
+x
+
+# =
+.
+.
+.
+.
+xxxxx
+.
+xxxxx
+
+# %
+.
+.
+xx   x
+xx  x
+   x
+  x
+ x  xx
+x   xx
+
+# ‰
+.
+.
+xx   x
+xx  x
+   x
+  x
+ x  xx xx
+x   xx xx
+
+# "
+x x
+x x
+x x
+
+# '
+x
+x
+x
+
+# #
+.
+.
+ x x
+xxxxx
+ x x
+ x x
+ x x
+xxxxx
+ x x
+
+# @
+.
+.
+ xxx
+x   x
+x xxx
+x x x
+x xxx
+x
+ xxxx
+
+# &
+.
+.
+ xx
+x  x
+x  x
+ xx xx
+x  x
+x  x
+ xx xx
+
+# _
+.
+.
+.
+.
+.
+.
+.
+.
+xxxxx
+
+# (
+.
+.
+ xx
+x
+x
+x
+x
+x
+ xx
+
+# )
+.
+.
+xx
+  x
+  x
+  x
+  x
+  x
+xx
+
+# ,
+.
+.
+.
+.
+.
+.
+.
+.
+ x
+x
+
+# ,
+.
+.
+.
+.
+.
+.
+.
+.
+x
+
+# ;
+.
+.
+.
+.
+ x
+.
+.
+.
+ x
+x
+
+# :
+.
+.
+.
+.
+ x
+.
+ x
+
+
+# ?
+.
+.
+ xxx
+x   x
+    x
+   x
+  x
+.
+  x
+
+# !
+.
+.
+x
+x
+x
+x
+x
+.
+x
+
+# \
+.
+.
+.
+x
+ x
+  x
+   x
+    x
+     x
+
+# |
+.
+x
+x
+x
+x
+x
+x
+x
+x
+x
+
+# {
+.
+.
+ xxx
+ x
+ x
+xx
+ x
+ x
+ xxx
+
+# }
+.
+.
+xxx
+  x
+  x
+  xx
+  x
+  x
+xxx
+
+# <
+.
+.
+.
+  x
+ x
+x
+ x
+  x
+
+# >
+.
+.
+.
+x
+ x
+  x
+ x
+x
+
+# [
+.
+.
+xxx
+x
+x
+x
+x
+x
+xxx
+
+# ]
+.
+.
+xxx
+  x
+  x
+  x
+  x
+  x
+xxx
+
+# `
+x
+ x
+  x
+
+# ^
+  x
+ x x
+x   x
+
+# ~
+.
+.
+.
+.
+ x x
+x x
+
+# Ä
+ x x
+.
+ xxx
+x   x
+x   x
+xxxxx
+x   x
+x   x
+x   x
+
+# Ö
+ x x
+.
+ xxx
+x   x
+x   x
+x   x
+x   x
+x   x
+ xxx
+
+# Ü
+ x x
+.
+x   x
+x   x
+x   x
+x   x
+x   x
+x   x
+ xxx
+
+# ß
+.
+.
+ xx
+x  x
+x  x
+xxxx
+x   x
+x   x
+x xx
+
+# ä
+.
+.
+x  x
+.
+ xxx
+x  x
+x  x
+x  x
+ xxx
+
+# ö
+.
+.
+x  x
+.
+ xx
+x  x
+x  x
+x  x
+ xx
+
+# ü
+.
+.
+x  x
+.
+x  x
+x  x
+x  x
+x  x
+ xx
+
