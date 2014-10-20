@@ -14,12 +14,7 @@ var animationFrame = require('./frame');
 
 function loop (board) {
 	animationFrame(function(){
-		//board.context.clearRect(0, 0, board.context.canvas.width, board.context.canvas.height);
-
-		board.matrix.leds.forEach(function(led){
-			led.render(board.context);
-		});
-
+		board.render(board.context);
 		loop(board);
 	});
 }
@@ -40,7 +35,13 @@ module.exports = defaults;
 },{}],4:[function(require,module,exports){
 var _slice = Array.prototype.slice;
 var objectAssign = require('object-assign');
+
+var calculateBounds = require('./matrix/calculateBounds');
+var populate = require('./matrix/populate');
+
 var Matrix = require('./matrix');
+var Cursor = require('./text/cursor');
+
 var loop = require('./animation/loop');
 var defaults = require('./defaults');
 
@@ -48,28 +49,82 @@ var LedCanvas = function() {
     var LedCanvas = function LedCanvas(el, options, LedClass, font) {
 		this.font = font;
 		this.options = objectAssign({}, defaults, options || {});
-
-		this.cursor = {
-			x: 0,
-			y: 0
-		};
-
-		el.width = el.clientWidth * 2;
-		el.height = el.clientHeight * 2;
-
-		this.matrix = new Matrix(el.width, el.height, this.options.matrix, LedClass);
-		this.context = el.getContext('2d');
-
-		loop(this);
+		this.setup(el, LedClass);
 	};
 
     Object.defineProperties(LedCanvas.prototype, {
+        setup: {
+            writable: true,
+
+            value: function(el, LedClass) {
+                el.width = el.clientWidth * window.devicePixelRatio;
+                el.height = el.clientHeight * window.devicePixelRatio;
+                var _bounds = calculateBounds(el.width, el.height, this.options.matrix);
+                var _leds = populate(_bounds.x, _bounds.y, _bounds.dim, LedClass);
+
+                this.context = el.getContext('2d');
+                this.matrix = new Matrix(_bounds.x, _bounds.y, _leds);
+                this.cursor = new Cursor(1, 0, this.font.meta.lineHeight, _bounds.x, _bounds.y);
+            }
+        },
+
+        start: {
+            writable: true,
+
+            value: function() {
+                loop(this);
+            }
+        },
+
         get: {
             writable: true,
 
             value: function() {
                 var args = _slice.call(arguments);
                 return this.matrix.get.apply(this.matrix, _slice.call(args));
+            }
+        },
+
+        prop: {
+            writable: true,
+
+            value: function() {
+                var args = _slice.call(arguments);
+                return this.matrix.prop.apply(this.matrix, _slice.call(args));
+            }
+        },
+
+        row: {
+            writable: true,
+
+            value: function(y) {
+                return this.matrix.row(y);
+            }
+        },
+
+        column: {
+            writable: true,
+
+            value: function(x) {
+                return this.matrix.column(x);
+            }
+        },
+
+        rect: {
+            writable: true,
+
+            value: function() {
+                var args = _slice.call(arguments);
+                return this.matrix.rect.apply(this.matrix, _slice.call(args));
+            }
+        },
+
+        render: {
+            writable: true,
+
+            value: function() {
+                var args = _slice.call(arguments);
+                return this.matrix.render.apply(this.matrix, _slice.call(args));
             }
         },
 
@@ -80,9 +135,7 @@ var LedCanvas = function() {
                 if (state === undefined)
                     state = true;
 
-                var led = this.get(x, y);
-                led.enabled = state;
-                return led;
+                return this.matrix.get(x, y).set(state);
             }
         },
 
@@ -90,75 +143,37 @@ var LedCanvas = function() {
             writable: true,
 
             value: function(x, y, state) {
-                var led = this.get(x, y);
-                led.toggle(state);
-                return led;
-            }
-        },
-
-        invert: {
-            writable: true,
-
-            value: function() {
-                this.matrix.all().forEach(function(led){
-                    led.toggle();
-                });
-            }
-        },
-
-        clear: {
-            writable: true,
-
-            value: function() {
-                this.cursor = { x : 0, y : 0 };
-
-                this.matrix.all().forEach(function(led){
-                    led.enabled = false;
-                });
+                return this.matrix.get(x, y).toggle(state);
             }
         },
 
         write: {
             writable: true,
 
-            value: function(str, size, x, y) {
+            value: function(str, x, y) {
                 var _this = this;
+                var cursor = (x && y) ? new Cursor(x, y) : this.cursor;
 
-                if (y === undefined)
-                    y = this.cursor.y;
-
-                if (x === undefined)
-                    x = this.cursor.x;
-
-                if (size === undefined)
-                    size = 1;
-
-                if (typeof str === 'undefined') return;
-
-                if (typeof str !== 'string') {
-                    str = str.toString();
-                }
-
-                this.cursor = { x: x, y: y };
-                var charSpacing = this.font.meta.charSpacing || 1;
-
-                str.split('').forEach(function(char) {
-                    if (char === ' ') {
-                        _this.cursor.x += charSpacing*3;
+                str.split('').forEach(function(character) {
+                    if (character === ' ') {
+                        cursor.plus(4);
                     }
 
-                    var _sign = _this.font.chars[char];
-                    if (! _sign) return;
+                    var fontCharacter = _this.font.chars[character];
+                    if (! fontCharacter) return;
 
-                    if (_this.cursor.x + _sign.width + charSpacing*2 >= _this.matrix.x) {
-                        _this.cursor = { x: 0, y: _this.cursor.y + _this.font.meta.lineHeight + charSpacing };
-                    }
+                    var charWidth = fontCharacter.width || _this.font.meta.charWidth;
+                    var charSpacing = _this.font.meta.charSpacing || 1;
+                    var pixelOffset = fontCharacter.offset || 0;
 
-                    _sign.data.forEach(function(blob) {
-                        _this.set(blob[0] + _this.cursor.x + charSpacing, blob[1] + _this.cursor.y + charSpacing);
+                    var matrix = _this.rect(_this.cursor.x, _this.cursor.y, charWidth, _this.font.meta.lineHeight);
+                    matrix.set(false);
+
+                    fontCharacter.data.forEach(function(pixel){
+                        matrix.index(pixel + pixelOffset).set(true);
                     });
 
-                    _this.cursor.x += _this.font.meta.monospaced ? _this.font.meta.charWidth + charSpacing : _sign.width + charSpacing;
+                    cursor.plus(charWidth + charSpacing);
                 });
             }
         }
@@ -174,7 +189,7 @@ function ledCanvasFactory(el, options, LedClass, font) {
 module.exports = ledCanvasFactory;
 
 
-},{"./animation/loop":2,"./defaults":3,"./matrix":6,"object-assign":8}],5:[function(require,module,exports){
+},{"./animation/loop":2,"./defaults":3,"./matrix":6,"./matrix/calculateBounds":5,"./matrix/populate":7,"./text/cursor":8,"object-assign":9}],5:[function(require,module,exports){
 function calculateBounds (width, height, options) {
 	var _fitX = width, _fitY = height, _x = 0, _y = 0, _dim = 0;
 
@@ -203,30 +218,56 @@ module.exports = calculateBounds;
 
 
 },{}],6:[function(require,module,exports){
-var calculateBounds = require('./calculateBounds'),
-		populate = require('./populate'),
-		objectAssign = require('object-assign');
+var _slice = Array.prototype.slice;
 
 var Matrix = function() {
-    var Matrix = function Matrix(width, height, options, Led) {
-		objectAssign(this, calculateBounds(width, height, options));
-		this.leds = populate(this.x, this.y, this.dim, Led);
-	};
+    var Matrix = function Matrix(x, y, leds) {
+        if (leds === undefined)
+            leds = [];
+
+        if (y === undefined)
+            y = 0;
+
+        if (x === undefined)
+            x = 0;
+
+        this.leds = leds;
+        this.x = x;
+        this.y = y;
+    };
 
     Object.defineProperties(Matrix.prototype, {
-        update: {
-            writable: true,
-
-            value: function(width, height, options) {
-                objectAssign(this, calculateBounds(width, height, options));
-            }
-        },
-
         get: {
             writable: true,
 
             value: function(x, y) {
-                return this.leds[Math.min(x, this.x) + Math.min(y, this.y) * this.x];
+                return new Matrix(1, 1, [this.leds[Math.min(x, this.x) + Math.min(y, this.y) * this.x]]);
+            }
+        },
+
+        index: {
+            writable: true,
+
+            value: function(idx) {
+                return new Matrix(1, 1, [this.leds[idx]]);
+            }
+        },
+
+        prop: {
+            writable: true,
+
+            value: function(key, value) {
+                var _leds = this.leds.filter(function(led){
+                    return led[key] == value;
+                });
+
+                var _xBuffer = _leds.map(function (led) { return led.x; });
+                var _yBuffer = _leds.map(function (led) { return led.y; });
+
+                var _x = Math.max.apply(Math, _xBuffer) - Math.min.apply(Math, _xBuffer);
+                var _y = Math.max.apply(Math, _yBuffer) - Math.min.apply(Math, _yBuffer);
+
+                return new Matrix(_x, _y, _leds);
             }
         },
 
@@ -234,9 +275,9 @@ var Matrix = function() {
             writable: true,
 
             value: function(y) {
-                return this.leds.filter(function(led){
+                return new Matrix(this.x, 1, this.leds.filter(function(led){
                     return led.y == y;
-                });
+                }));
             }
         },
 
@@ -244,9 +285,9 @@ var Matrix = function() {
             writable: true,
 
             value: function(x) {
-                return this.leds.filter(function(led){
+                return new Matrix(1, this.y, this.leds.filter(function(led){
                     return led.x == x;
-                });
+                }));
             }
         },
 
@@ -263,31 +304,52 @@ var Matrix = function() {
                 var _xmax = x + xc;
                 var _ymax = y + yc;
 
-                return this.leds.filter(function(_ymax) {
+                return new Matrix(xc, yc, this.leds.filter(function(_ymax) {
                     return function(_xmax) {
                         return function(led){
-                            return led.x >= x && led.x <= _xmax && led.y >= y && led.y <= _ymax;
+                            return led.x >= x && led.x < _xmax && led.y >= y && led.y < _ymax;
                         };
                     };
-                }(_ymax)(_xmax));
+                }(_ymax)(_xmax)));
             }
         },
 
-        all: {
+        set: {
+            writable: true,
+
+            value: function(state) {
+                return this.leds.forEach(function(led){
+                    led.enabled = state;
+                });
+            }
+        },
+
+        toggle: {
             writable: true,
 
             value: function() {
-                return this.leds;
+                return this.leds.forEach(function(led){
+                    led.enabled = ! led.enabled;
+                });
             }
         },
 
-        prop: {
+        render: {
             writable: true,
 
-            value: function(key, value) {
-                return this.leds.filter(function(led){
-                    return led[key] == value;
+            value: function() {
+                var args = _slice.call(arguments);
+                this.leds.forEach(function(led){
+                    led.render.apply(led, _slice.call(args));
                 });
+            }
+        },
+
+        add: {
+            writable: true,
+
+            value: function(matrix) {
+                this.leds = this.leds.concat(matrix.leds);
             }
         }
     });
@@ -298,7 +360,7 @@ var Matrix = function() {
 module.exports = Matrix;
 
 
-},{"./calculateBounds":5,"./populate":7,"object-assign":8}],7:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 function populate (x, y, dim, Led) {
 	var _length = x*y;
 	var _leds = [];
@@ -316,6 +378,79 @@ module.exports = populate;
 
 
 },{}],8:[function(require,module,exports){
+var Cursor = function() {
+    var Cursor = function Cursor(x, y, height, maxX, maxY) {
+		this.x = x;
+		this.y = y;
+
+		this.height = height;
+
+		this.max = {
+			x: maxX,
+			y: maxY
+		};
+	};
+
+    Object.defineProperties(Cursor.prototype, {
+        reset: {
+            writable: true,
+
+            value: function() {
+                this.x = 1;
+                this.y = 0;
+            }
+        },
+
+        plus: {
+            writable: true,
+
+            value: function(x) {
+                if (this.x + x <= this.max.x) {
+                    this.x += x;
+                } else {
+                    this.line();
+                }
+            }
+        },
+
+        minus: {
+            writable: true,
+
+            value: function(x) {
+                if (this.x + x >= 0) {
+                    this.x -= x;
+                } else {
+                    this.line(-1);
+                }
+            }
+        },
+
+        line: {
+            writable: true,
+
+            value: function(offset) {
+                if (offset === undefined)
+                    offset = 1;
+
+                var distance = offset * this.height;
+                this.x = 1;
+
+                if (this.y + distance <= this.max.y && this.y + distance >= 0) {
+                    this.y += distance;
+                } else {
+                    this.reset();
+                }
+            }
+        }
+    });
+
+    return Cursor;
+}();
+
+module.exports = Cursor;
+
+
+},{}],9:[function(require,module,exports){
 'use strict';
 
 function ToObject(val) {
