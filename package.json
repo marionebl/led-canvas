@@ -7,16 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "build": "npm run browserify && npm run uglify",
-    "watch": "./node_modules/.bin/nodemon --exec \"npm run build\"",
-    "serve": "./node_modules/.bin/static .",
-    "browserify": "./node_modules/.bin/browserify ./lib/index.js -t 6to5-browserify -o ./dist/led-canvas.js",
-    "uglify": "./node_modules/.bin/uglifyjs dist/led-canvas.js -o ./dist/led-canvas.min.js",
-    "test": "./node_modules/.bin/npm run test-spec && ./node_modules/.bin/npm run test-coverage",
-    "test-spec": "./node_modules/.bin/mocha test/test-*.js",
-    "test-optimized": "node --trace_opt --trace_deopt --allow-natives-syntax test/optimized.js",
-    "test-coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly test/test-*.js",
-    "travis-coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "prepublish": "npm run 6to5",
+    "postpublish": "npm run reset",
+    "reset": "git checkout -- ./lib/",
+    "6to5": "6to5 ./lib --out-dir ./lib"
   },
   "repository": {
     "type": "git",
@@ -37,10 +31,6 @@
     "object-assign": "^1.0.0"
   },
   "devDependencies": {
-    "6to5-browserify": "0.0.11",
-    "browserify": "^6.1.0",
-    "node-static": "^0.7.6",
-    "nodemon": "^1.2.1",
-    "uglify-js": "^2.4.15"
+    "6to5": "^1.9.10"
   }
 }
