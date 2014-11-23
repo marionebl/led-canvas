@@ -7,10 +7,14 @@
     "test": "test"
   },
   "scripts": {
-    "prepublish": "npm run 6to5",
+    "prepublish": "npm run build",
     "postpublish": "npm run reset",
-    "reset": "git checkout -- ./lib/",
-    "6to5": "6to5 ./lib --out-dir ./lib"
+    "prepare": "mkdir -p ./lib && mkdir -p ./dist",
+    "reset": "rm -r ./lib && rm -r ./dist",
+    "sixtofive": "6to5 ./src --out-dir ./lib",
+    "browserify": "browserify ./lib/index.js -o ./dist/index.js",
+    "build": "npm run prepare && npm run sixtofive",
+    "dist": "npm run prepare && npm run browserify"
   },
   "repository": {
     "type": "git",
@@ -28,9 +32,11 @@
   },
   "homepage": "https://github.com/marionebl/led-canvas",
   "dependencies": {
+    "led-canvas-matrix": "0.0.1",
     "object-assign": "^1.0.0"
   },
   "devDependencies": {
-    "6to5": "^1.9.10"
+    "6to5": "^1.9.10",
+    "browserify": "^6.3.2"
   }
 }

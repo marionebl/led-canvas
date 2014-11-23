@@ -1,14 +1,15 @@
 var objectAssign = require('object-assign');
+var matrix = require('led-canvas-matrix');
 
-var calculateBounds = require('./matrix/calculateBounds');
-var populate = require('./matrix/populate');
-
-var Matrix = require('./matrix');
 var Cursor = require('./text/cursor');
 var EventEmitter = require('./event-emitter');
 
 var loop = require('./animation/loop');
 var defaults = require('./defaults');
+
+var Matrix = matrix.Matrix;
+var calculateBounds = matrix.calculateBounds;
+var populate = matrix.populate;
 
 class LedCanvas extends EventEmitter {
 	/**
