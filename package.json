@@ -34,6 +34,7 @@
   "homepage": "https://github.com/marionebl/led-canvas",
   "dependencies": {
     "led-canvas-matrix": "0.0.1",
+    "nano-event-emitter": "0.0.1",
     "object-assign": "^1.0.0"
   },
   "devDependencies": {

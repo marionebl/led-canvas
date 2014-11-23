@@ -1,8 +1,8 @@
 var objectAssign = require('object-assign');
 var matrix = require('led-canvas-matrix');
+var NanoEventEmitter = require('nano-event-emitter');
 
 var Cursor = require('./text/cursor');
-var EventEmitter = require('./event-emitter');
 
 var loop = require('./animation/loop');
 var defaults = require('./defaults');
@@ -11,7 +11,7 @@ var Matrix = matrix.Matrix;
 var calculateBounds = matrix.calculateBounds;
 var populate = matrix.populate;
 
-class LedCanvas extends EventEmitter {
+class LedCanvas extends NanoEventEmitter {
 	/**
 	 * Constructs a new LedCanvas instance
 	 * @param  {HTMLCanvasElement} [el] - <canvas> element to draw on
