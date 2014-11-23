@@ -2,8 +2,7 @@ var objectAssign = require('object-assign');
 var matrix = require('led-canvas-matrix');
 var NanoEventEmitter = require('nano-event-emitter');
 
-var Cursor = require('./text/cursor');
-
+var Cursor = require('./cursor');
 var loop = require('./animation/loop');
 var defaults = require('./defaults');
 
