@@ -161,9 +161,12 @@ class LedCanvas extends NanoEventEmitter {
 	 * @param {Integer} y - starting y coordinate to write from
 	 */
 	write(str, font, x = 0, y = 0) {
-		return this.insert(new LedCanvasText(str, font, (xc, yc) => {
+		var text = new LedCanvasText(str, font, (xc, yc) => {
 			return this.getLed(xc, yc);
-		}), x, y);
+		});
+
+		this.insert(text, x, y);
+		return text;
 	}
 
 	/**
