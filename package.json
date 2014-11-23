@@ -1,6 +1,6 @@
 {
   "name": "led-canvas",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Lightweight led board implemented with canvas",
   "main": "lib/index.js",
   "directories": {
@@ -34,7 +34,7 @@
   "homepage": "https://github.com/marionebl/led-canvas",
   "dependencies": {
     "led-canvas-matrix": "0.0.2",
-    "led-canvas-text": "0.0.1",
+    "led-canvas-text": "0.0.2",
     "nano-event-emitter": "0.0.1",
     "object-assign": "^1.0.0"
   },
