@@ -1,14 +1,11 @@
 var objectAssign = require('object-assign');
-var matrix = require('led-canvas-matrix');
+var LedCanvasMatrix = require('led-canvas-matrix');
+var LedCanvasText = require('led-canvas-text');
 var NanoEventEmitter = require('nano-event-emitter');
 
-var Cursor = require('./cursor');
+//var Cursor = require('./cursor');
 var loop = require('./animation/loop');
 var defaults = require('./defaults');
-
-var Matrix = matrix.Matrix;
-var calculateBounds = matrix.calculateBounds;
-var populate = matrix.populate;
 
 class LedCanvas extends NanoEventEmitter {
 	/**
@@ -16,30 +13,33 @@ class LedCanvas extends NanoEventEmitter {
 	 * @param  {HTMLCanvasElement} [el] - <canvas> element to draw on
 	 * @param  {Object} [options] - LedCanvas options
 	 * @param  {Class}  [LedClass] - Led class to use
-	 * @param  {Object} [font] - Object describing the font to use for LedCanvas::write
 	 * @return {Object} LedCanvas instance
 	 */
-	constructor(el, options, LedClass, font) {
-		this.font = font;
+	constructor(el, options, LedClass) {
 		this.options = objectAssign({}, defaults, options || {});
-		this.setup(el, LedClass);
+		this.ledClass = LedClass;
+		this.setup(el);
 		super();
 	}
 
 	/**
 	 * Sets up basic dimensions and rendering context
 	 * @param  {HTMLCanvasElement} [el] - <canvas> element to draw on
-	 * @param  {Class}  [LedClass] - Led class to use
 	 */
-	setup(el, LedClass) {
+	setup(el) {
 		el.width = el.clientWidth * window.devicePixelRatio;
 		el.height = el.clientHeight * window.devicePixelRatio;
-		let bounds = calculateBounds(el.width, el.height, this.options.matrix);
-		let leds = populate(bounds.x, bounds.y, bounds.dim, LedClass);
-
 		this.context = el.getContext('2d');
-		this.matrix = new Matrix(0, 0, bounds.x, bounds.y, leds);
-		this.cursor = new Cursor(1, 0, this.font.meta.lineHeight, bounds.x, bounds.y);
+		this.matrix = new LedCanvasMatrix(0, 0, this.options.matrix.width, this.options.matrix.height, (x, y) => {
+			return this.getLed(x, y);
+		});
+	}
+
+	/**
+	 * Return a new Led
+	 */
+	getLed(x, y) {
+		return new this.ledClass(x, y, this.options.matrix.dim);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class LedCanvas extends NanoEventEmitter {
 			led.set(true);
 		});
 
-		return new Matrix(matrix.x + x, matrix.y + y, matrix.width, matrix.height, leds);
+		return new LedCanvasMatrix(matrix.x + x, matrix.y + y, matrix.width, matrix.height, leds);
 	}
 
 	/**
@@ -160,36 +160,20 @@ class LedCanvas extends NanoEventEmitter {
 	 * @param {Integer} x - starting x coordinate to write from
 	 * @param {Integer} y - starting y coordinate to write from
 	 */
-	write(str, x, y) {
-		var cursor = (x && y) ? new Cursor(x, y) : this.cursor;
-		var matrices = [];
+	write(str, font, x = 0, y = 0) {
+		return this.insert(new LedCanvasText(str, font, (xc, yc) => {
+			return this.getLed(xc, yc);
+		}), x, y);
+	}
 
-		str.split('').forEach((character) => {
-			if (character === ' ') {
-				cursor.plus(4);
-			}
-
-			var fontCharacter = this.font.chars[character];
-			if (! fontCharacter) return;
-
-			var charWidth = fontCharacter.width || this.font.meta.charWidth;
-			var charSpacing = this.font.meta.charSpacing || 1;
-			var pixelOffset = fontCharacter.offset || 0;
-
-			var matrix = this.rect(this.cursor.x, this.cursor.y, charWidth, this.font.meta.lineHeight);
-			matrix.set(false);
-
-			fontCharacter.data.forEach(function(pixel){
-				matrix.index(pixel + pixelOffset).set(true);
-			});
-
-			cursor.plus(charWidth + charSpacing);
-			matrices.push(matrix);
-		});
-
-		return matrices.reduce(function(base, next){
-			return base.add(next);
-		});
+	/**
+	 * Insert a matrix to the led board
+	 * @param {Object} LedMatrix - matrix to render on the led board
+	 * @param {Integer} x - starting x coordinate to render from
+	 * @param {Integer} y - starting y coordinate to render from
+	 */
+	insert(matrix, x = 0, y = 0) {
+		return this.matrix.join(matrix, x, y);
 	}
 }
 
