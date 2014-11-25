@@ -133,25 +133,17 @@ class LedCanvas extends NanoEventEmitter {
 	 * @param {Integer} [y=0] - Number of leds to move the matrix on the y-axis by
 	 */
 	move(matrix, x = 0, y = 0) {
-		var enabledLeds = [];
+		var replacement = new LedCanvasMatrix(matrix.x, matrix.y, matrix.width, matrix.height, (xc, yc) => {
+			return this.getLed(xc, yc);
+		});
 
-		var leds = matrix.leds.map((led) => {
-			let nextLed = this.matrix.get(led.x + x, led.y + y);
-
-			if (led.enabled) {
-				enabledLeds.push(nextLed);
-			}
-
-			return nextLed.leds[0];
+		matrix.leds.forEach(function(led, index){
+			replacement.index(index).set(led.enabled);
 		});
 
 		matrix.set(false);
 
-		enabledLeds.forEach(function(led){
-			led.set(true);
-		});
-
-		return new LedCanvasMatrix(matrix.x + x, matrix.y + y, matrix.width, matrix.height, leds);
+		return this.insert(replacement, x, y);
 	}
 
 	/**
@@ -165,8 +157,7 @@ class LedCanvas extends NanoEventEmitter {
 			return this.getLed(xc, yc);
 		});
 
-		this.insert(text, x, y);
-		return text;
+		return this.insert(text, x, y);
 	}
 
 	/**
