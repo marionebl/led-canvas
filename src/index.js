@@ -184,13 +184,3 @@ function ledCanvasFactory (...args) {
 
 export default ledCanvasFactory
 export {LedCanvas as LedCanvas}
-
-
-let canvasElement = document.createElement('canvas')
-document.body.appendChild(canvasElement)
-document.body.style.backgroundColor = '#000'
-
-let ledCanvas = ledCanvasFactory(canvasElement)
-window.board = ledCanvas;
-
-ledCanvas.start();
