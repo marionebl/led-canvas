@@ -8,6 +8,10 @@ var loop = require('./animation/loop')
 var defaults = require('./defaults')
 
 class LedCanvas extends NanoEventEmitter {
+  static create (...args) {
+    return new LedCanvas(...args)
+  }
+
   /**
    * Constructs a new LedCanvas instance
    * @param  {HTMLCanvasElement} [el] - <canvas> element to draw on
@@ -27,20 +31,36 @@ class LedCanvas extends NanoEventEmitter {
    * @param  {HTMLCanvasElement} [el] - <canvas> element to draw on
    */
   setup (el) {
-    el.width = el.clientWidth * window.devicePixelRatio
-    el.height = el.clientHeight * window.devicePixelRatio
+    if (!el.width) {
+      el.width = el.clientWidth * window.devicePixelRatio
+    }
+    if (!el.height) {
+      el.height = el.clientHeight * window.devicePixelRatio
+    }
+
+    const space = Math.max(el.width, el.height)
+    const dim = space / 100
+    const width = this.options.width || Math.round(el.width / dim)
+    const height = this.options.height || Math.round(el.height / dim)
+
     this.context = el.getContext('2d')
-    this.matrix = new LedCanvasMatrix(0, 0, this.options.matrix.width, this.options.matrix.height, (x, y) => {
-      return this.getLed(x, y)
+    this.matrix = new LedCanvasMatrix(0, 0, width, height, (x, y) => {
+      return this.getLed(x, y, dim)
     })
+  }
+
+  refresh (el) {
+    el.width = null
+    el.height = null
+    this.setup(el)
   }
 
   /**
    * Return a new Led
    */
-  getLed (x, y) {
+  getLed (x, y, dim) {
     let LedClass = this.ledClass
-    return new LedClass(x, y, this.options.matrix.dim)
+    return new LedClass(x, y, dim)
   }
 
   /**
@@ -158,8 +178,9 @@ class LedCanvas extends NanoEventEmitter {
    * @param {String} str - string to write to the led board
    * @param {Integer} x - starting x coordinate to write from
    * @param {Integer} y - starting y coordinate to write from
+   * @param {Object} font - LedCanvasFont to use
    */
-  write (str, font = LedCanvasFont, x = 0, y = 0) {
+  write (str, x = 0, y = 0, font = LedCanvasFont) {
     var text = new LedCanvasText(str, font, (xc, yc) => {
       return this.getLed(xc, yc)
     })
@@ -178,9 +199,5 @@ class LedCanvas extends NanoEventEmitter {
   }
 }
 
-function ledCanvasFactory (...args) {
-  return new LedCanvas(...args)
-}
-
-export default ledCanvasFactory
+export default LedCanvas
 export {LedCanvas as LedCanvas}

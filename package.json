@@ -7,15 +7,11 @@
     "test": "test"
   },
   "scripts": {
-    "start": "beefy src/index.js -- -t babelify",
+    "start": "beefy example/index.js -- -t babelify",
+    "tetris": "beefy example/tetris.js -- -t babelify",
     "prepublish": "npm run build",
-    "postpublish": "npm run reset",
-    "prepare": "mkdir -p ./lib && mkdir -p ./dist",
-    "reset": "rm -r ./lib && rm -r ./dist",
-    "babel": "babel ./src --out-dir ./lib",
-    "browserify": "browserify ./lib/index.js -o ./dist/index.js",
-    "build": "npm run prepare && npm run babel",
-    "dist": "npm run prepare && npm run browserify"
+    "browserify": "browserify -t babelify ./src/index.js -o ./lib/index.js",
+    "build": "npm run browserify"
   },
   "repository": {
     "type": "git",
