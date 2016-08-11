@@ -1,5 +1,5 @@
 import LedCanvas from '../src'
-import LedCanvasFont from 'led-canvas-fonts/enhanced'
+import LedCanvasFont from 'led-canvas-fonts/enhanced-special'
 import LedCanvasText from 'led-canvas-text'
 
 const styleSheet = `

@@ -1,12 +1,14 @@
-var LedCanvasMatrix = require('led-canvas-matrix')
-var LedCanvasText = require('led-canvas-text')
-var LedCanvasLed = require('led-canvas-led')
-var LedCanvasFont = require('led-canvas-fonts/enhanced')
-var NanoEventEmitter = require('nano-event-emitter')
+import LedCanvasMatrix from 'led-canvas-matrix'
+import LedCanvasText from 'led-canvas-text'
+import LedCanvasLed from 'led-canvas-led'
+import LedCanvasFont from 'led-canvas-fonts/enhanced'
+import NanoEventEmitter from 'nano-event-emitter'
+import autobind from 'autobind-decorator'
 
-var loop = require('./animation/loop')
-var defaults = require('./defaults')
+import loop from './animation/loop'
+import defaults from './defaults'
 
+@autobind
 class LedCanvas extends NanoEventEmitter {
   static create (...args) {
     return new LedCanvas(...args)
@@ -59,7 +61,7 @@ class LedCanvas extends NanoEventEmitter {
    * Return a new Led
    */
   getLed (x, y, dim) {
-    let LedClass = this.ledClass
+    const LedClass = this.ledClass
     return new LedClass(x, y, dim)
   }
 
